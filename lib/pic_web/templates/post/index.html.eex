@@ -1,0 +1,57 @@
+<h2><%= gettext("Listing Posts") %></h2>
+<span><%= link gettext("New Post"), to: post_path(@conn, :new), class: "btn btn-secondary btn-sm" %></span>
+<!--<table class="table">
+  <thead>
+    <tr>
+      <th><%= gettext("User") %></th>
+      <th><%= gettext("Body") %></th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for post <- @posts.list do %>
+    <tr>
+      <td><%= post.user.email %></td>
+      <td><%= post.body %></td>
+
+      <td class="text-right">
+        <span><%= link gettext("Show"), to: post_path(@conn, :show, post), class: "btn btn-secondary btn-sm" %></span>
+        <%= if Pic.Auth.Authorizer.can_manage?(@current_user, post) do %>
+          <span><%= link gettext("Edit"), to: post_path(@conn, :edit, post), class: "btn btn-secondary btn-sm" %></span>
+          <span><%= link gettext("Delete"), to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+        <% end %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>-->
+<div class="card-columns">
+  <%= for post <- @posts.list do %>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="<%= Pic.ImageUploader.url({post.image, post}, :medium) %>" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text"><%= post.body %></p>
+      </div>
+      <div class="card-footer">
+        <span><%= link gettext("Show"), to: post_path(@conn, :show, post), class: "btn btn-secondary btn-sm" %></span>
+        <%= if Pic.Auth.Authorizer.can_manage?(@current_user, post) do %>
+          <span><%= link gettext("Edit"), to: post_path(@conn, :edit, post), class: "btn btn-secondary btn-sm" %></span>
+          <span><%= link gettext("Delete"), to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <%= if @posts.has_prev do %>
+      <li class="page-item"><%= link gettext("Prev Page"), to: post_path(@conn, :index, page: @posts.prev_page), class: "page-link" %></li>
+    <% end %>
+    <%= if @posts.has_next do %>
+      <li class="page-item"><%= link gettext("Next Page"), to: post_path(@conn, :index, page: @posts.next_page), class: "page-link" %></li>
+    <% end %>
+  </ul>
+</nav>

@@ -1,0 +1,2 @@
+<%= render "form.html", Map.put(assigns, :action, post_path(@conn, :update, @post)) %>
+<span><%= link gettext("Back"), to: post_path(@conn, :index), class: "btn btn-outline-secondary btn-sm" %></span>

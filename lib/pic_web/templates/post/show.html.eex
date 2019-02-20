@@ -1,0 +1,27 @@
+<p><img src="<%= Pic.ImageUploader.url({@post.image, @post}, :medium) %>"></p>
+<p><%= gettext("Body") %>: <%= @post.body %></p>
+<p>
+  <%= gettext("User") %>: <%= link @post.user.email, to: user_path(@conn, :show, @post.user.id) %>
+</p>
+
+<% if Pic.Auth.Authorizer.can_manage?(@current_user, @post) do %>
+  <span><%= link gettext("Edit"), to: post_path(@conn, :edit, @post), class: "btn btn-primary btn-sm" %></span>
+<% end %>
+<span><%= link gettext("Back"), to: post_path(@conn, :index), class: "btn btn-outline-secondary btn-sm" %></span>
+
+
+
+<h3><%= gettext("Add a Comment") %>:</h3>
+<%= render PicWeb.CommentView, "new.html", conn: @conn, post: @post, comment_changeset: @comment_changeset %>
+
+<h4><%= gettext("Comment lists") %>:</h4>
+<table class="table table-hover">
+   <tbody>
+    <%= for comment <- @post.comments do %>
+      <tr>
+        <td><%= comment.body %></td>
+        <td><%= default_format(comment.inserted_at) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
