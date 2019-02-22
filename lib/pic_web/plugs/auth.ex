@@ -22,7 +22,7 @@ defmodule PicWeb.Auth do
     else
       conn
       |> put_flash(:error, "You need admin identity to continue.")
-      |> redirect(to: page_path(conn, :index))
+      |> redirect(to: post_path(conn, :index))
       |> halt()
     end
   end

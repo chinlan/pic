@@ -18,7 +18,8 @@ defmodule PicWeb.Router do
   scope "/", PicWeb do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    #get "/", PageController, :index
+    get "/", PostController, :index
     resources "/posts", PostController do
       resources "/comments", CommentController, only: [:create]
     end
