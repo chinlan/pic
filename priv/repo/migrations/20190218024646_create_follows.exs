@@ -3,8 +3,8 @@ defmodule Pic.Repo.Migrations.CreateFollows do
 
   def change do
     create table(:follows) do
-      add :followee_id, references(:users, on_delete: :nothing)
-      add :follower_id, references(:users, on_delete: :nothing)
+      add :followee_id, references(:users, on_delete: :nothing)# need null: false
+      add :follower_id, references(:users, on_delete: :nothing)# need null: false
       add :inserted_at, :timestamp, null: false, default: fragment("NOW()")
     end
 

@@ -6,7 +6,7 @@
 import {Socket} from "phoenix"
 
 let socket = new Socket("/socket", {params: {token: window.userToken}})
-
+let channelConversationId = window.channelConversationId
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
 // which authenticates the session and assigns a `:current_user`.
@@ -52,11 +52,34 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 // from connect if you don't care about authentication.
 
 socket.connect()
+if (channelConversationId) {
+  // Now that you are connected, you can join channels with a topic:
+  let channel = socket.channel(`room:${channelConversationId}`, {})
+  channel.join()
+    .receive("ok", resp => { console.log("Joined successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join", resp) })
 
-// Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("topic:subtopic", {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  channel.on(`room:${channelConversationId}:new_message`, (message) => {
+    console.log("message", message)
+    renderMessage(message)
+  });
 
+  document.querySelector("#new-message").addEventListener('submit', (e) => {
+    e.preventDefault()
+    let messageInput = e.target.querySelector('#message-content')
+
+    channel.push('message:add', { body: messageInput.value })
+
+    messageInput.value = ""
+  });
+
+  const renderMessage = function(message) {
+    let messageTemplate = `
+      <li class="list-group-item">
+        <strong>${user.name}</strong>: ${message.body}
+      </li>
+    `
+    document.querySelector("#messages").innerHTML += messageTemplate
+  };
+}
 export default socket

@@ -10,6 +10,8 @@
     <% else %>
       <%= link gettext("Follow"), to: follow_path(@conn, :create, followee_id: @user.id), method: :post, class: "btn btn-outline-primary btn-sm" %>
     <% end %>
+    <%= link gettext("Chat"), to: conversation_path(@conn, :create,
+    recipient_id: @user.id), method: :post, class: "btn btn-outline-info btn-sm" %>
   <% end %>
 
 </span>
