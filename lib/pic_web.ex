@@ -58,6 +58,7 @@ defmodule PicWeb do
     quote do
       use Phoenix.Channel
       import PicWeb.Gettext
+      import PicWeb.Helpers.Params
     end
   end
 

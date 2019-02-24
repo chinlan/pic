@@ -10,6 +10,8 @@ defmodule Pic.PicWeb do
   alias Pic.PicWeb.Post
   alias Pic.PicWeb.Comment
   alias Pic.PicWeb.Follow
+  alias Pic.PicWeb.Conversation
+  alias Pic.PicWeb.Message
   alias Pic.Pagination
 
   @doc """
@@ -185,5 +187,29 @@ defmodule Pic.PicWeb do
   def delete_follow(followee_id) do
     Repo.get_by!(Follow, followee_id: followee_id)
     |> Repo.delete()
+  end
+
+  def find_or_create_conversation(attrs \\ %{}) do
+    case existed_conversation(attrs) do
+      [] -> %Conversation{sender_id: attrs["sender_id"], recipient_id: attrs["recipient_id"]}
+      [conversation] -> conversation
+    end
+    |> Conversation.changeset(attrs)
+    |> Repo.insert_or_update
+  end
+
+  defp existed_conversation(attrs \\ %{}) do
+    recipient_id = String.to_integer(attrs["recipient_id"])
+    sender_id = attrs["sender_id"]
+    query = from c in Conversation,
+            where: c.sender_id in [^sender_id, ^recipient_id],
+            where: c.recipient_id in [^recipient_id, ^sender_id]
+    Repo.all(query)
+  end
+
+  def create_message(attrs \\ %{}) do
+     %Message{}
+    |> Message.changeset(attrs)
+    |> Repo.insert()
   end
 end

@@ -29,6 +29,8 @@ defmodule PicWeb.Router do
     delete "/sign-out", SessionController, :delete
     post "/follow", FollowController, :create
     delete "/unfollow", FollowController, :delete
+    #get "/chat", ChatController, :index
+    resources "/conversations", ConversationController, only: [:show, :create]
   end
 
   scope "/admin", PicWeb, as: :admin do

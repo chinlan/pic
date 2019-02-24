@@ -8,6 +8,7 @@ defmodule Pic.PicWeb.User do
     field :email, :string
     field :encrypted_password, :string
     field :is_admin, :boolean
+    field :name, :string, virtual: true
     has_many :posts, Pic.PicWeb.Post
     has_many :comments, Pic.PicWeb.Comment
     has_many :followeds, Pic.PicWeb.Follow, foreign_key: :followee_id
@@ -24,5 +25,9 @@ defmodule Pic.PicWeb.User do
     |> validate_required([:email, :encrypted_password])
     |> unique_constraint(:email)
     |> update_change(:encrypted_password, &Bcrypt.hashpwsalt/1)
+  end
+
+  def name(%Pic.PicWeb.User{email: email} = user) do
+    Regex.named_captures(~r/(?<name>.*)@/, email)["name"]
   end
 end

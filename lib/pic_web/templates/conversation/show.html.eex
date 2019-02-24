@@ -1,0 +1,18 @@
+<ul class="list-group mt-5" id="messages">
+  <%= for message <- @conversation.messages do %>
+    <li class="list-group-item">
+      <strong><%= Pic.PicWeb.User.name(message.user) %></strong>: <%= message.body %>
+    </li>
+  <% end %>
+</ul>
+
+<form id="new-message">
+  <div class="form-row">
+    <input type="text" class="form-control" id="message-content" />
+  </div>
+  <div class="form-row">
+    <button class="btn btn-outline-primary" type="submit"><%= gettext("Submit") %></button>
+  </div>
+</div>
+
+<script>window.channelConversationId = "<%= @conversation.id %>"</script>
