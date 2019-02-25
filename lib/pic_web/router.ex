@@ -23,6 +23,7 @@ defmodule PicWeb.Router do
     resources "/posts", PostController do
       resources "/comments", CommentController, only: [:create]
     end
+    get "/tagged/:tag", TagController, :show
     resources "/registrations", UserController, only: [:create, :new]
     resources "/profiles", UserController, only: [:show]
     get "/sign-in", SessionController, :new

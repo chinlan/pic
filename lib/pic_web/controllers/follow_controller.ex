@@ -11,11 +11,11 @@ defmodule PicWeb.FollowController do
     params = Map.put(follow_params, "follower_id", current_user.id)
     params = Map.put(params, "followee_id", user_id)
     case PicWeb.create_follow(params) do
-      {:ok, follow} ->
+      {:ok, _follow} ->
         conn
         |> put_flash(:info, "Created successfully.")
         |> redirect(to: user_path(conn, :show, user_id))
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{}} ->
         conn
         |> put_flash(:info, "Something went wrong.")
         |> redirect(to: user_path(conn, :show, user_id))

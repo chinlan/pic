@@ -1,6 +1,14 @@
 <p><img src="<%= Pic.ImageUploader.url({@post.image, @post}, :medium) %>"></p>
 <p><%= gettext("Body") %>: <%= @post.body %></p>
 <p>
+  <%= gettext("Tags") %>: <%#= @post.tags |> Enum.map(&(&1.name)) |> Enum.join(", ") %>
+  <%= for tag <- @post.tags do %>
+    <%= link to: tag_path(@conn, :show, tag.name) do %>
+      <%= tag.name %>
+    <% end %>
+  <% end %>
+</p>
+<p>
   <%= gettext("User") %>: <%= link @post.user.email, to: user_path(@conn, :show, @post.user.id) %>
 </p>
 

@@ -3,7 +3,6 @@ defmodule PicWeb.PostController do
 
   alias Pic.PicWeb
   alias Pic.PicWeb.{Post, Comment}
-  alias Pic.Repo
   alias Pic.Auth.Authorizer
 
   plug :authenticate_user when action in [:new, :create, :edit, :update, :delete]
@@ -37,22 +36,21 @@ defmodule PicWeb.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Post
-           |> Repo.get(id)
-           |> Repo.preload(:comments)
-           |> Repo.preload(:user)
+    post = PicWeb.get_post!(id)
     comment_changeset = Comment.changeset(%Comment{}, %{})
     render(conn, "show.html", post: post, comment_changeset: comment_changeset)
   end
 
   def edit(conn, %{"id" => id}) do
     post = PicWeb.get_post!(id)
+    tags = PicWeb.tags_loaded(post)
     changeset = PicWeb.edit_change_post(post)
-    render(conn, "edit.html", post: post, changeset: changeset)
+    render(conn, "edit.html", post: post, changeset: changeset, tags: tags)
   end
 
-  def update(conn, %{"id" => id, "post" => post_params}) do
+  def update(conn, %{"id" => id, "post" => %{"tags" => tags} = post_params}) do
     post = PicWeb.get_post!(id)
+    PicWeb.update_tags(post, tags)
 
     case PicWeb.update_post(post, post_params) do
       {:ok, post} ->

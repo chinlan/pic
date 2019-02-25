@@ -11,7 +11,9 @@ defmodule Pic.PicWeb.Post do
     #field :user_id, :id
     belongs_to :user, Pic.PicWeb.User
     has_many :comments, Pic.PicWeb.Comment
-
+    has_many :posts_tags, Pic.PicWeb.PostsTag
+    has_many :tags, through: [:posts_tags, :tag]
+    # many_to_many :tags, Pic.PicWeb.Tag, join_through: "posts_tags"
     timestamps()
   end
 

@@ -3,8 +3,6 @@ defmodule PicWeb.Auth do
   import Phoenix.Controller
   import PicWeb.Router.Helpers
 
-  alias Pic.PicWeb
-
   def authenticate_user(conn, _args) do
     if conn.assigns.user_signed_in? do
       conn

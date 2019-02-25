@@ -46,7 +46,7 @@
             </ul>
             <%= form_for @conn, post_path(@conn, :index), [method: :get, class: "form-inline my-2 my-lg-0"], fn f -> %>
               <%= search_input f, :query, class: "form-control mr-sm-2" %>
-              <%= submit "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+              <%= submit gettext("Search"), class: "btn btn-outline-success my-2 my-sm-0" %>
             <% end %>
           </div>
         </nav>

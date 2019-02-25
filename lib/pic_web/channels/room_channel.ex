@@ -1,8 +1,6 @@
 defmodule PicWeb.RoomChannel do
   use PicWeb, :channel
 
-  alias Pic.PicWeb.Conversation
-  alias Pic.PicWeb.Message
   alias Pic.PicWeb.User
   alias Pic.PicWeb
   alias Pic.Repo

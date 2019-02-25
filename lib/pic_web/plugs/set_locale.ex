@@ -10,7 +10,7 @@ defmodule PicWeb.SetLocale do
       nil -> conn
       locale ->
         PicWeb.Gettext |> Gettext.put_locale(locale)
-        conn |> put_resp_cookie "locale", locale, max_age: 60
+        conn |> put_resp_cookie("locale", locale, max_age: 60)
     end
   end
 

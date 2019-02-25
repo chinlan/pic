@@ -12,6 +12,8 @@ defmodule Pic.PicWeb do
   alias Pic.PicWeb.Follow
   alias Pic.PicWeb.Conversation
   alias Pic.PicWeb.Message
+  alias Pic.PicWeb.Tag
+  alias Pic.PicWeb.PostsTag
   alias Pic.Pagination
 
   @doc """
@@ -151,7 +153,11 @@ defmodule Pic.PicWeb do
   end
 
   def get_post!(id) do
-   Repo.get!(Post, id) |> Repo.preload(:user)
+   Post
+     |> Repo.get(id)
+     |> Repo.preload(:comments)
+     |> Repo.preload(:user)
+     |> Repo.preload(:tags)
   end
 
   def create_post(attrs \\ %{}) do
@@ -211,5 +217,58 @@ defmodule Pic.PicWeb do
      %Message{}
     |> Message.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def add_tag(post, tag_name) when is_binary(tag_name) do
+    tag =
+      case Repo.get_by(Tag, %{name: tag_name}) do
+        nil ->
+          %Tag{} |> Tag.changeset(%{name: tag_name}) |> Repo.insert!()
+        tag ->
+          tag
+      end
+    add_tag(post, tag.id)
+  end
+
+  def add_tag(%Post{} = post, tag_id) do
+    add_tag(post.id, tag_id)
+  end
+
+  def add_tag(post_id, tag_id) do
+    PostsTag.changeset(%PostsTag{}, %{post_id: post_id, tag_id: tag_id})
+    |> Repo.insert()
+  end
+
+  def remove_tag(post, tag_name) when is_binary(tag_name) do
+    case Repo.get_by(Tag, %{name: tag_name}) do
+      nil -> nil
+      tag -> remove_tag(post, tag.id)
+    end
+  end
+
+  def remove_tag(%Post{} = post, tag_id) do
+    remove_tag(post.id, tag_id)
+  end
+
+  def remove_tag(post_id, tag_id) do
+    case Repo.get_by(PostsTag, %{ post_id: post_id, tag_id: tag_id}) do
+      nil -> nil
+      posts_tag -> Repo.delete(posts_tag)
+    end
+  end
+
+  def tags_loaded(%{tags: tags}) do
+    tags |> Enum.map_join(", ", &(&1.name))
+  end
+
+  def update_tags(post, new_tags) when is_binary(new_tags) do
+    old_tags = tags_loaded(post) |> String.split(", ")
+    new_tags = new_tags |> String.split(", ")
+    Enum.each(new_tags -- old_tags, &add_tag(post, &1))
+    Enum.each(old_tags -- new_tags, &remove_tag(post, &1))
+  end
+
+  def get_tag(tag_name) do
+    Tag |> Repo.get_by(name: tag_name) |> Repo.preload(:posts)
   end
 end

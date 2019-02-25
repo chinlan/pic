@@ -1,7 +1,6 @@
 defmodule PicWeb.CommentController do
   use PicWeb, :controller
 
-  alias Pic.PicWeb
   alias Pic.PicWeb.Post
   alias Pic.Repo
 

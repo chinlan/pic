@@ -3,7 +3,6 @@ defmodule PicWeb.Admin.UserController do
 
   alias Pic.PicWeb
   alias Pic.PicWeb.User
-  alias Pic.Auth.Authorizer
 
   plug :authenticate_user
   plug :authorize_admin_user

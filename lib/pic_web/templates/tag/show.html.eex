@@ -1,0 +1,20 @@
+<h3><%= gettext("Listing posts") %></h3>
+
+<div class="card-columns">
+  <%= for post <- @tag.posts do %>
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" src="<%= Pic.ImageUploader.url({post.image, post}, :medium) %>" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"></h5>
+        <p class="card-text"><%= post.body %></p>
+      </div>
+      <div class="card-footer">
+        <span><%= link gettext("Show"), to: post_path(@conn, :show, post), class: "btn btn-secondary btn-sm" %></span>
+        <%= if Pic.Auth.Authorizer.can_manage?(@current_user, post) do %>
+          <span><%= link gettext("Edit"), to: post_path(@conn, :edit, post), class: "btn btn-secondary btn-sm" %></span>
+          <span><%= link gettext("Delete"), to: post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-sm" %></span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

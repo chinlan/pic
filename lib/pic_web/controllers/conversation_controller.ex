@@ -25,7 +25,7 @@ defmodule PicWeb.ConversationController do
       {:ok, conversation} ->
         conn
         |> redirect(to: conversation_path(conn, :show, conversation))
-      {:error, %Ecto.Changeset{} = changeset} ->
+      {:error, %Ecto.Changeset{}} ->
         conn
         |> put_flash(:info, "Something went wrong.")
         |> redirect(to: user_path(conn, :show, user_id))
