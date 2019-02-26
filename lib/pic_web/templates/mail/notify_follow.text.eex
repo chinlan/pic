@@ -1,0 +1,2 @@
+Hello, <%= @user %>
+You have a new follower: <%= @follower %>

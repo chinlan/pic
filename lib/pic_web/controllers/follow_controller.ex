@@ -2,6 +2,8 @@ defmodule PicWeb.FollowController do
   use PicWeb, :controller
 
   alias Pic.PicWeb
+  alias Pic.Email
+  alias Pic.Mailer
 
   plug :authenticate_user
 
@@ -12,9 +14,13 @@ defmodule PicWeb.FollowController do
     params = Map.put(params, "followee_id", user_id)
     case PicWeb.create_follow(params) do
       {:ok, _follow} ->
+        user = PicWeb.get_user!(user_id)
+        Email.notify_follow_html_email(user, current_user)
+        |> Mailer.deliver_later()
         conn
         |> put_flash(:info, "Created successfully.")
         |> redirect(to: user_path(conn, :show, user_id))
+
       {:error, %Ecto.Changeset{}} ->
         conn
         |> put_flash(:info, "Something went wrong.")

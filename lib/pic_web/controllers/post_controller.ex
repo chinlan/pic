@@ -16,7 +16,7 @@ defmodule PicWeb.PostController do
 
   def new(conn, _params) do
     changeset = PicWeb.change_post(conn.assigns.current_user, %Post{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, tags: nil)
   end
 
   def create(conn, %{"post" => post_params}) do

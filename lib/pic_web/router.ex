@@ -33,6 +33,7 @@ defmodule PicWeb.Router do
     delete "/unfollow", FollowController, :delete
     #get "/chat", ChatController, :index
     resources "/conversations", ConversationController, only: [:show, :create]
+    get "/mail", MailController, :index
   end
 
   scope "/admin", PicWeb, as: :admin do

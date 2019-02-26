@@ -20,7 +20,7 @@ defmodule Pic.Mixfile do
   def application do
     [
       mod: {Pic.Application, []},
-      extra_applications: [:logger, :runtime_tools, :arc_ecto, :timex]
+      extra_applications: [:logger, :runtime_tools, :arc_ecto, :timex, :bamboo]
     ]
   end
 
@@ -46,7 +46,9 @@ defmodule Pic.Mixfile do
       {:bcrypt_elixir, "~> 1.0"},
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.1"},
-      {:timex, "~> 3.1"}
+      {:timex, "~> 3.1"},
+      {:bamboo, "~> 0.7"},
+      {:bamboo_smtp, "~> 1.2.1"}
     ]
   end
 
