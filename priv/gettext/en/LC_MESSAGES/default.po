@@ -19,7 +19,7 @@ msgstr ""
 #, elixir-format
 #: lib/pic_web/templates/layout/app.html.eex:36
 #: lib/pic_web/templates/session/new.html.eex:1
-#: lib/pic_web/templates/session/new.html.eex:5
+#: lib/pic_web/templates/session/new.html.eex:10
 msgid "Sign in"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 msgid "Tags"
 msgstr ""
 
-#, elixir-format, fuzzy
+#, elixir-format
 #: lib/pic_web/templates/tag/show.html.eex:1
 msgid "Listing posts"
 msgstr ""
@@ -214,16 +214,31 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#, elixir-format, fuzzy
-#: lib/pic_web/templates/session/new.html.eex:3
-#: lib/pic_web/templates/session/new.html.eex:3
+#, elixir-format
+#: lib/pic_web/templates/session/new.html.eex:4
 #: lib/pic_web/templates/user/form.html.eex:9
 msgid "email"
 msgstr ""
 
 #, elixir-format
-#: lib/pic_web/templates/session/new.html.eex:4
-#: lib/pic_web/templates/session/new.html.eex:4
+#: lib/pic_web/templates/session/new.html.eex:7
 #: lib/pic_web/templates/user/form.html.eex:15
 msgid "password"
+msgstr ""
+
+#, elixir-format
+#: lib/pic_web/templates/mail/notify_follow.html.eex:1
+#: lib/pic_web/templates/mail/notify_follow.text.eex:1
+msgid "Hello, "
+msgstr ""
+
+#, elixir-format
+#: lib/pic/email.ex:21
+msgid "You have a new follower!"
+msgstr ""
+
+#, elixir-format
+#: lib/pic_web/templates/mail/notify_follow.html.eex:2
+#: lib/pic_web/templates/mail/notify_follow.text.eex:2
+msgid "You have a new follower: "
 msgstr ""

@@ -1,2 +1,2 @@
-<p>Hello, <%= @user %></p>
-<p>You have a new follower: <%= @follower %></p>
+<p><%= gettext("Hello, ") <> @user %></p>
+<p><%= gettext("You have a new follower: ") <> @follower %></p>
