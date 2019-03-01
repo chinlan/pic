@@ -205,7 +205,12 @@ defmodule Pic.PicWeb do
   end
 
   defp existed_conversation(attrs \\ %{}) do
-    recipient_id = String.to_integer(attrs["recipient_id"])
+    recipient_id =
+      if is_binary(attrs["recipient_id"]) do
+        String.to_integer(attrs["recipient_id"])
+      else
+        attrs["recipient_id"]
+      end
     sender_id = attrs["sender_id"]
     query = from c in Conversation,
             where: c.sender_id in [^sender_id, ^recipient_id],

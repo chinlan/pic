@@ -16,4 +16,5 @@ config :pic, Pic.Repo,
   password: "postgres",
   database: "pic_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  ownership_timeout: 999999  # avoid timeout when doing pry during the test

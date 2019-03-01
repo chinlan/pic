@@ -33,6 +33,15 @@ defmodule PicWeb.RoomChannel do
     {:reply, :ok, socket}
   end
 
+  # def handle_info(:after_join, socket) do
+  #   push socket, "presence_state", Presence.list(socket)
+
+  #   user = PicWeb.get_user!(socket.assigns.current_user_id)
+
+  #   {:ok, _} = Presence.track(socket, "user:#{user.id}", %{typing: false, user_id: user.id})
+  #   {:noreply, socket}
+  # end
+
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true
