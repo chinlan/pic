@@ -25,6 +25,14 @@ config :logger, :console,
 config :pic, PicWeb.Gettext, locales: ~w(en zh),
 default_locale: "zh"
 
+config :pic, Pic.Scheduler,
+  jobs: [
+    phoenix_job: [
+      schedule: "* */24 * * *",
+      task: {Pic.Task, :delete_useless_tags, []},
+    ]
+  ]
+
 try do
   File.stream!("./.env")
     |> Stream.map(&String.trim_trailing/1) # remove excess whitespace

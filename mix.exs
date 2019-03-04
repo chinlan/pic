@@ -46,6 +46,7 @@ defmodule Pic.Mixfile do
       {:bcrypt_elixir, "~> 1.0"},
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.1"},
+      {:quantum, "~> 2.2"},
       {:timex, "~> 3.1"},
       {:bamboo, "~> 0.7"},
       {:bamboo_smtp, "~> 1.2.1"}
