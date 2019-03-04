@@ -19,7 +19,8 @@ defmodule PicWeb.PostController do
     render(conn, "new.html", changeset: changeset, tags: nil)
   end
 
-  def create(conn, %{"post" => post_params}) do
+  # def create(conn, %{"post" => post_params}) do
+  def create(conn, %{"post" => %{"tags" => tags} = post_params} ) do
     current_user = conn.assigns.current_user
     # changeset = Ecto.build_assoc(current_user, :posts, body: post_params["body"])
     # case Repo.insert(changeset) do
@@ -27,6 +28,8 @@ defmodule PicWeb.PostController do
     params = Map.put(post_params, :user, current_user)
     case PicWeb.create_post(params) do
       {:ok, post} ->
+        post = post |> Pic.Repo.preload(:tags)
+        PicWeb.update_tags(post, tags)
         conn
         |> put_flash(:info, "Created successfully.")
         |> redirect(to: post_path(conn, :show, post))
