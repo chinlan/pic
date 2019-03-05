@@ -14,6 +14,20 @@ config :pic, PicWeb.Endpoint,
   watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
                     cd: Path.expand("../assets", __DIR__)]]
 
+try do
+  File.stream!("./.env")
+    |> Stream.map(&String.trim_trailing/1) # remove excess whitespace
+    |> Enum.each(fn line -> line           # loop through each line
+      |> String.replace("export ", "")     # remove "export" from line
+      |> String.split("=")                 # split on the "=" (equals sign)
+      |> Enum.reduce(fn(value, key) ->     # stackoverflow.com/q/33055834/1148249
+        System.put_env(key, value)         # set each environment variable
+      end)
+    end)
+rescue
+  _ -> IO.puts "no .env file found!"
+end
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
